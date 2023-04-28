@@ -1,0 +1,374 @@
+---
+openapi: 3.0.3
+info:
+  title: mam API
+  version: "1.0"
+paths:
+  /collection:
+    get:
+      tags:
+      - Media Collection Controller
+      parameters:
+      - name: page
+        in: query
+        schema:
+          format: int32
+          default: "1"
+          type: integer
+      - name: size
+        in: query
+        schema:
+          format: int32
+          default: "10"
+          type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+    post:
+      tags:
+      - Media Collection Controller
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MediaCollection'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MediaCollection'
+  /collection/m:
+    get:
+      tags:
+      - Media Collection Controller
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MediaCollectionItem'
+  /collection/{id}:
+    get:
+      tags:
+      - Media Collection Controller
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          format: int32
+          type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MediaCollection'
+    put:
+      tags:
+      - Media Collection Controller
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          format: int32
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MediaCollection'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MediaCollection'
+    delete:
+      tags:
+      - Media Collection Controller
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          format: int32
+          type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MediaCollection'
+  /media:
+    get:
+      tags:
+      - Media Controller
+      parameters:
+      - name: page
+        in: query
+        schema:
+          format: int32
+          default: "1"
+          type: integer
+      - name: size
+        in: query
+        schema:
+          format: int32
+          default: "10"
+          type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+    post:
+      tags:
+      - Media Controller
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Media'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Media'
+  /media/search:
+    get:
+      tags:
+      - Media Controller
+      parameters:
+      - name: name
+        in: query
+        schema:
+          type: string
+      - name: page
+        in: query
+        schema:
+          format: int32
+          default: "1"
+          type: integer
+      - name: size
+        in: query
+        schema:
+          format: int32
+          default: "10"
+          type: integer
+      - name: value
+        in: query
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+  /media/{id}:
+    get:
+      tags:
+      - Media Controller
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          format: int32
+          type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Media'
+    put:
+      tags:
+      - Media Controller
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          format: int32
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Media'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Media'
+    delete:
+      tags:
+      - Media Controller
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          format: int32
+          type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Media'
+components:
+  schemas:
+    CdnSource:
+      type: object
+      properties:
+        id:
+          format: int32
+          type: integer
+        type:
+          type: string
+        resolution:
+          type: string
+        src:
+          type: string
+        media:
+          $ref: '#/components/schemas/Media'
+    Media:
+      type: object
+      properties:
+        id:
+          format: int32
+          type: integer
+        name:
+          type: string
+        title:
+          type: string
+        type:
+          type: string
+        description:
+          type: string
+        hour:
+          format: int32
+          type: integer
+        minute:
+          format: int32
+          type: integer
+        productionYear:
+          format: int32
+          type: integer
+        rating:
+          format: int32
+          type: integer
+        numberOfViews:
+          format: int32
+          type: integer
+        deliveryMethod:
+          type: string
+        availableOnTv:
+          type: boolean
+        availableOnWeb:
+          type: boolean
+        availableOnMobile:
+          type: boolean
+        thumbnailWeb:
+          type: string
+        thumbnailMobile:
+          type: string
+        thumbnailTv:
+          type: string
+        hadif:
+          type: string
+        tags:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+        cdnSources:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/CdnSource'
+        metadata:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/Metadata'
+    MediaCollection:
+      type: object
+      properties:
+        id:
+          format: int32
+          type: integer
+        name:
+          type: string
+        type:
+          type: string
+        description:
+          type: string
+        sesion:
+          format: int32
+          type: integer
+        mediaItems:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/MediaCollectionItem'
+    MediaCollectionItem:
+      type: object
+      properties:
+        id:
+          format: int32
+          type: integer
+        media:
+          $ref: '#/components/schemas/Media'
+        episode:
+          format: int32
+          type: integer
+    Metadata:
+      type: object
+      properties:
+        id:
+          format: int64
+          type: integer
+        name:
+          type: string
+        value:
+          type: string
+    Tag:
+      type: object
+      properties:
+        id:
+          format: int32
+          type: integer
+        name:
+          type: string
